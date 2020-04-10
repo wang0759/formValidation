@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Week 6 Lab - JavaScript DOM and Arrays</title>
+    <meta charset="utf-8">
+    <link href="css/style.css" rel="stylesheet">
+    <script>
+
+        var isNaN = function (value) {
+            var n = Number(value);
+            return n !== n;
+        };
+        function validateForm() {
+            var fn = document.getElementById("erro1");
+            var ln = document.getElementById("erro2");
+            var ad = document.getElementById("erro3");
+            var ci = document.getElementById("erro4");
+            var p = document.getElementById("erro5");
+            var pc = document.getElementById("erro6");
+            var w1 = document.getElementById("widget1qty");
+            var w2 = document.getElementById("widget2qty");
+            var w3 = document.getElementById("widget3qty");
+            var varfal = true;
+            var total = 0.00;
+            var shipFee;
+
+            fn.innerHTML = "";
+            ln.innerHTML = "";
+            ad.innerHTML = "";
+            ci.innerHTML = "";
+            p.innerHTML = "";
+            pc.innerHTML = "";
+            document.getElementById("productError").innerHTML = "";
+
+            if (document.getElementById("firstName").value == "") { fn.innerHTML = "Please enter your first name."; varfal = false; }
+
+            if (document.getElementById("lastName").value == "") { ln.innerHTML = "Please enter your last name."; varfal = false; }
+
+            if (document.getElementById("address").value == "") { ad.innerHTML = "Please enter your address."; varfal = false; }
+
+            if (document.getElementById("city").value == "") { ci.innerHTML = "Please enter the city."; varfal = false; }
+
+            if (document.getElementById("province").value == "no") { p.innerHTML = "Please enter the province."; varfal = false; }
+
+            if (document.getElementById("postalCode").value == "") { pc.innerHTML = "Please enter the postal code."; varfal = false; }
+
+            if (document.getElementById("postalCode").value.toString().length != 6) { pc.innerHTML = "Postal code must be 6 digits long."; varfal = false; }
+
+
+            //console.log("v1 value start"+ w1.value);
+            if (isNaN(w1.value) || isNaN(w2.value) || isNaN(w3.value)) { document.getElementById("productError").innerHTML = "The quality must be numbers."; varfal = false; }
+            //console.log("END");
+
+            if (w1.value < 0 || w2.value < 0 || w3.value < 0) { document.getElementById("productError").innerHTML = "The quanlity can not less than 0."; varfal = false; }
+
+            if (w1.value == 0 && w2.value == 0 && w3.value == 0) { document.getElementById("productError").innerHTML = "Please choose items."; varfal = false; }
+
+            if (document.getElementById("shippingTypeStandard").checked)
+                shipFee = 5.00;
+            else if (document.getElementById("shippingTypeExpress").checked)
+                shipFee = 10.00;
+            else if (document.getElementById("shippingTypeOvernight").checked)
+                shipFee = 20.00;
+
+            if (varfal == true) {
+                total = w1.value * 5.00 + w2.value * 15.00 + w3.value * 25.00 + shipFee;
+                alert("Total price is: " + total);
+                return true;
+            }
+            else return false;
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <h2 class="center">Order Form</h2>
+        <div id="content">
+            <form name="orderForm" method="post" action="#" onsubmit="return validateForm()">
+                <fieldset>
+                    <table>
+                        <tr>
+                            <th colspan="2">Personal Information</th>
+                        </tr>
+                        <tr>
+                            <td>First Name:</td>
+                            <td><input type="text" name="firstName" id="firstName" size="30"><span id="erro1"
+                                    style="color: red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name:</td>
+                            <td><input type="text" name="lastName" id="lastName" size="30"><span id="erro2"
+                                    style="color:red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                            <td><input type="text" name="address" id="address" size="30"><span id="erro3"
+                                    style="color:red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td>City:</td>
+                            <td><input type="text" name="city" id="city" size="30"><span id="erro4"
+                                    style="color:red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <td>Province:</td>
+                            <td><select name="province" id="province" size="1">
+                                    <option value="no">Select a province</option>
+                                    <option value="BC">British Columbia</option>
+                                    <option value="AB">Alberta</option>
+                                    <option value="SK">Saskatchewan</option>
+                                    <option value="MB">Manitoba</option>
+                                    <option value="ON">Ontario</option>
+                                    <option value="QC">Québec</option>
+                                    <option value="NB">New Brunswick</option>
+                                    <option value="NS">Nova Scotia</option>
+                                    <option value="PE">Prince Edward Island</option>
+                                    <option value="NF">Newfoundland</option>
+                                    <option value="YK">Yukon</option>
+                                    <option value="NWT">Northwest Territories</option>
+                                    <option value="NU">Nunavut</option>
+                                </select><span id="erro5" style="color:red;">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Postal Code:</td>
+                            <td><input type="text" name="postalCode" id="postalCode" maxlength="6"><span id="erro6"
+                                    style="color:red;">*</span></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">Order Information</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">Select your products:<br>
+                                <span id="productError" class="errorMessage" style="color:red;">*</span></td>
+                            <td>Widget #1&nbsp;
+                                <input type="text" name="widget1qty" id="widget1qty" size="1" value="0">Qty @
+                                <strong>$5.00/ea</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Widget #2&nbsp;
+                                <input type="text" name="widget2qty" id="widget2qty" size="1" value="0">Qty @
+                                <strong>$15.00/ea</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Widget #3&nbsp;
+                                <input type="text" name="widget3qty" id="widget3qty" size="1" value="0">Qty @
+                                <strong>$25.00/ea</strong></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">Shipping Type:</td>
+                            <td>Standard ($5.00)<input type="radio" name="shippingType" id="shippingTypeStandard"
+                                    value="Standard" checked></td>
+
+                        </tr>
+                        <tr>
+                            <td>Express ($10.00)<input type="radio" name="shippingType" id="shippingTypeExpress"
+                                    value="Express"></td>
+                        </tr>
+                        <tr>
+                            <td>Overnight ($20.00)<input type="radio" name="shippingType" id="shippingTypeOvernight"
+                                    value="Overnight"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">Submit Order</th>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" name="btnSubmit" id="btnSubmit" value="Submit Order"></td>
+                            <td><input type="reset" name="btnReset" id="btnReset" value="Reset Form"></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
